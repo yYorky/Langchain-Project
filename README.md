@@ -21,5 +21,15 @@ Langchain Project following Krish Naik's Updated Langchain Tutorial
 4. Store in vector store FAISS
 5. perform query using similarity search
 
+
 ### Part 5 of Updated Langchain playlist
-1. Use Chain and Retriever to obtain response for LLM model
+1. Combine Chain and Retriever into a retriever_chain to obtain response for LLM model based on context
+2. Context are the text information embeddeded and stored in the vector store
+3. Some prompts are listed as part of the input to ensure better quality answer suited to the case.
+
+
+### Part 6 of Updated Langchain playlist
+1. Using agents and tools for multi-data source RAG
+2. Used Groqchat as it supports tools (https://python.langchain.com/docs/integrations/chat/)
+3. Used Groqcloud to obtain API keys
+4. Invoking the agents to use the relevant tools requires explicit command on the input.
