@@ -38,7 +38,7 @@ if "vector" not in st.session_state:
     # Once all documents are loaded and processed, generate vectors
     st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
 
-st.title("Professor ChatGroq for Pokemon Scarlet & Violet")
+st.title("Professor ChatGroq for Pokemon Scarlet & Violet (website)")
 llm=ChatGroq(groq_api_key=groq_api_key,
              model_name="mixtral-8x7b-32768")
 

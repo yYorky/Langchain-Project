@@ -36,3 +36,10 @@ Langchain Project following Krish Naik's Updated Langchain Tutorial
 1. Groq inferencing engine using open source LLM
 2. Stored 3 websites for context, gave better performance with details compared to chatGPT and Copilot
 
+### Part 8 of Updated Langchain playlist
+1. Try out Huggingface embedder in notebook
+
+### Part 9 of Updated Langchain playlist
+1. Q&A using Llama3 model and RAG on documents
+2. Added gif for processing effect
+3. change to dark mode.
