@@ -20,3 +20,6 @@ Langchain Project following Krish Naik's Updated Langchain Tutorial
 3. Vector Embedding using open source model (Ollama = llama3)
 4. Store in vector store FAISS
 5. perform query using similarity search
+
+### Part 5 of Updated Langchain playlist
+1. Use Chain and Retriever to obtain response for LLM model
