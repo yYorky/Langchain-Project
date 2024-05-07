@@ -9,4 +9,5 @@ Langchain Project following Krish Naik's Updated Langchain Tutorial
 1. Create localama.py using ollama and gemma model
 2. To run go to venv and type `streamlit run chatbot/localama.py`
 
-
+### Part 3 of Updated Langchain playlist
+1. Create api `app.py` and `client.py` to route different task to different LLM 
