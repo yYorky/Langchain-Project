@@ -1,7 +1,8 @@
 import streamlit as st
 import os
 from langchain_groq import ChatGroq
-from langchain.embeddings import OllamaEmbeddings
+# from langchain.embeddings import OllamaEmbeddings #deprecated warning
+from langchain_community.embeddings import OllamaEmbeddings
 # from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -30,7 +31,7 @@ llm=ChatGroq(groq_api_key=groq_api_key,
 
 prompt=ChatPromptTemplate.from_template(
 """
-Imagine you are a Professor Chatgroq and expert on pokemon who is there to help the user.
+Imagine you are a Professor Chatgroq,an expert on pokemon, who is there to help the user.
 Answer the questions based on the provided context only.
 Answer in a natural conversational way.
 Please provide the most accurate response based on the question.
@@ -47,10 +48,10 @@ def vector_embedding():
     if "vectors" not in st.session_state:
 
         st.session_state.embeddings = OllamaEmbeddings(model="llama3")
-        st.session_state.loader=PyPDFDirectoryLoader("./huggingface/pokemon guide") ## Data Ingestion
+        st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion
         st.session_state.docs=st.session_state.loader.load() ## Document Loading
-        st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200) ## Chunk Creation
-        st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:20]) #splitting
+        st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=2000,chunk_overlap=200) ## Chunk Creation
+        st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:20]) #splitting, use this to split only first 20 docs "st.session_state.docs[:20]""
         st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector Ollama embeddings
 
 
