@@ -3,7 +3,7 @@ import os
 from langchain_groq import ChatGroq
 # from langchain.embeddings import OllamaEmbeddings #deprecated warning
 from langchain_community.embeddings import OllamaEmbeddings
-# from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
@@ -15,8 +15,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-## load the GROQ And OpenAI API KEY 
-# os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
+# load the GROQ And OpenAI API KEY 
+os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
 groq_api_key=os.getenv('GROQ_API_KEY')
 
 
@@ -47,14 +47,13 @@ def vector_embedding():
 
     if "vectors" not in st.session_state:
 
-        st.session_state.embeddings = OllamaEmbeddings(model="llama3")
+        # st.session_state.embeddings = OllamaEmbeddings(model="llama3")
+        st.session_state.embeddings = OpenAIEmbeddings()
         st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion
         st.session_state.docs=st.session_state.loader.load() ## Document Loading
         st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=2000,chunk_overlap=200) ## Chunk Creation
         st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:20]) #splitting, use this to split only first 20 docs "st.session_state.docs[:20]""
         st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector Ollama embeddings
-
-
 
 
 
