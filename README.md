@@ -56,7 +56,7 @@ Langchain Project following Krish Naik's Updated Langchain Tutorial
 The script sets up a Streamlit app where users can ask questions related to Pokémon Scarlet & Violet documents. It prepares document embeddings and retrieves relevant responses using the ChatGroq model and document retrieval techniques.
 
 <p align="center">
-  <img src="https://github.com/yYorky/Langchain-Project/blob/main/static/LangChain Project Flowchart.pdf" alt="image"/>
+  <img src="https://github.com/yYorky/Langchain-Project/blob/main/static/LangChain Project Flowchart.JPG" alt="image"/>
 </p>
 
 - **Imports:** The script imports necessary libraries and modules including Streamlit for building the web app, os for handling environment variables, various components from the "langchain" package for language processing, and dotenv for loading environment variables from a .env file.
