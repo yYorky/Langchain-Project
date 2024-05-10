@@ -10,6 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains import create_retrieval_chain
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain_community.document_loaders import TextLoader
 
 from dotenv import load_dotenv
 
@@ -43,13 +44,14 @@ Questions:{input}
 """
 )
 
+
 def vector_embedding():
 
     if "vectors" not in st.session_state:
 
         # st.session_state.embeddings = OllamaEmbeddings(model="llama3")
         st.session_state.embeddings = OpenAIEmbeddings()
-        st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion
+        st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion from pdf folder
         st.session_state.docs=st.session_state.loader.load() ## Document Loading
         st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=2000,chunk_overlap=200) ## Chunk Creation
         st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:20]) #splitting, use this to split only first 20 docs "st.session_state.docs[:20]""
