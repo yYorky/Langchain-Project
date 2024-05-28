@@ -3,6 +3,7 @@ import os
 from langchain_groq import ChatGroq
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.embeddings import OllamaEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
@@ -16,6 +17,7 @@ load_dotenv()
 
 # load the GROQ And OpenAI API KEY 
 os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
+os.environ["GOOGLE_API_KEY"]=os.getenv("GOOGLE_API_KEY")
 groq_api_key=os.getenv('GROQ_API_KEY')
 
 # Add customization options to the sidebar
@@ -46,14 +48,26 @@ if 'chat_history' in st.session_state:
 # Function for document embedding
 def vector_embedding():
     if "vectors" not in st.session_state:
+        st.write("Initializing embeddings...")
 
         # st.session_state.embeddings = OpenAIEmbeddings()
-        st.session_state.embeddings = OllamaEmbeddings(model="llama3")
-        st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion from pdf folder
-        st.session_state.docs=st.session_state.loader.load() ## Document Loading
-        st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=2000,chunk_overlap=200) ## Chunk Creation
-        st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs) #splitting, use this to split only first 20 docs "st.session_state.docs[:20]""
-        st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector Ollama embeddings
+        # st.session_state.embeddings = OllamaEmbeddings(model="llama3")
+        st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        st.write("Embeddings initialized.")
+
+        st.write("Loading documents from PDF directory...")
+        st.session_state.loader = PyPDFDirectoryLoader("./groq/pokemon guide")  # Data Ingestion from PDF folder
+        st.session_state.docs = st.session_state.loader.load()  # Document Loading
+        st.write(f"{len(st.session_state.docs)} documents loaded.")
+
+        st.write("Splitting documents into chunks...")
+        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)  # Chunk Creation
+        st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs)  # Splitting
+        st.write(f"{len(st.session_state.final_documents)} chunks created.")
+
+        st.write("Creating vector embeddings...")
+        st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
+        st.write("Vector embeddings created.")
 
 
         

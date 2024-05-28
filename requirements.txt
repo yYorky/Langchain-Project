@@ -20,3 +20,6 @@ wikipedia
 arxiv
 langchainhub
 nltk
+PyPDF2
+google-cloud-aiplatform>=1.38
+langchain_google_genai
