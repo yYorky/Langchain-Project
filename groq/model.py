@@ -47,8 +47,8 @@ if 'chat_history' in st.session_state:
 def vector_embedding():
     if "vectors" not in st.session_state:
 
-        # st.session_state.embeddings = OpenAIEmbeddings()
-        st.session_state.embeddings = OllamaEmbeddings(model="llama3")
+        st.session_state.embeddings = OpenAIEmbeddings()
+        #st.session_state.embeddings = OllamaEmbeddings(model="llama3")
         st.session_state.loader=PyPDFDirectoryLoader("./groq/pokemon guide") ## Data Ingestion from pdf folder
         st.session_state.docs=st.session_state.loader.load() ## Document Loading
         st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=2000,chunk_overlap=200) ## Chunk Creation
