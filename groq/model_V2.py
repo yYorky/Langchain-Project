@@ -85,9 +85,16 @@ if st.sidebar.button("Documents Embedding"):
     st.session_state.conversation_chain = get_conversation_chain(st.session_state.vectors, model)  # Initialize the conversation chain
 
 # Displaying a GIF
-st.image("https://cdn.dribbble.com/users/745569/screenshots/4009638/ava_ai.gif", use_column_width=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/EXemST2.gif" width="150">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.title("Professor Chatgroq with Selected Model for Pokemon Scarlet & Violet (documents)")
+st.title("Professor Chatgroq for Pokemon Scarlet & Violet")
 
 # Session state variable
 if 'chat_history' not in st.session_state:

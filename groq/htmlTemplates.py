@@ -1,20 +1,20 @@
 css = '''
 <style>
 .chat-message {
-    padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; display: flex
+    padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; display: flex;
 }
 .chat-message.user {
-    background-color: #2b313e
+    background-color: #2b313e;
 }
 .chat-message.bot {
-    background-color: #475063
+    background-color: #475063;
 }
 .chat-message .avatar {
   width: 20%;
 }
 .chat-message .avatar img {
-  max-width: 78px;
-  max-height: 78px;
+  max-width: 100px;  /* Increased from 78px to 100px */
+  max-height: 100px; /* Increased from 78px to 100px */
   border-radius: 50%;
   object-fit: cover;
 }
@@ -23,12 +23,13 @@ css = '''
   padding: 0 1.5rem;
   color: #fff;
 }
+</style>
 '''
 
 bot_template = '''
 <div class="chat-message bot">
     <div class="avatar">
-        <img src="https://archives.bulbagarden.net/media/upload/thumb/3/3e/Lets_Go_Pikachu_Eevee_Professor_Oak.png/180px-Lets_Go_Pikachu_Eevee_Professor_Oak.png" style="max-height: 78px; max-width: 78px; border-radius: 50%; object-fit: cover;">
+        <img src="https://raw.githubusercontent.com/yYorky/Langchain-Project/main/static/Professor.webp" style="max-height: 100px; max-width: 100px; border-radius: 50%; object-fit: cover;">
     </div>
     <div class="message">{{MSG}}</div>
 </div>
@@ -37,7 +38,7 @@ bot_template = '''
 user_template = '''
 <div class="chat-message user">
     <div class="avatar">
-        <img src="https://miketendo64.com/wp-content/uploads/2019/01/Screenshot_20190126-112736.png">
+        <img src="https://raw.githubusercontent.com/yYorky/Langchain-Project/main/static/Trainer.webp" style="max-height: 100px; max-width: 100px; border-radius: 50%; object-fit: cover;">
     </div>    
     <div class="message">{{MSG}}</div>
 </div>
