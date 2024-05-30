@@ -44,7 +44,9 @@ def vector_embedding():
         st.sidebar.write(f"{len(st.session_state.docs)} documents loaded.")
 
         st.sidebar.write("Splitting documents into chunks...")
-        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)  # Chunk Creation
+        chunk_size = st.session_state.chunk_size
+        chunk_overlap = st.session_state.chunk_overlap
+        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)  # Chunk Creation
         st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs)  # Splitting
         st.sidebar.write(f"{len(st.session_state.final_documents)} chunks created.")
 
@@ -69,15 +71,17 @@ def get_conversation_chain(vectorstore, model_name):
 st.sidebar.title('Customization')
 model = st.sidebar.selectbox(
     'Choose a model',
-    ['llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
-    key='model_choice'  # Unique key for the selectbox
+    ['llama3-70b-8192', 'llama3-8b-8192', 'mixtral-8x7b-32768', 'gemma-7b-it'],
+    key='model_choice',  # Unique key for the selectbox
 )
 st.session_state.embedding_choice = st.sidebar.selectbox(
     'Choose embedding type',
     ['GoogleGenerativeAI', 'OpenAI', 'Ollama'],
     key='embedding_choice_main'  # Unique key for the selectbox in the main sidebar
 )
-st.session_state.conversational_memory_length = st.sidebar.slider('Conversational memory length:', 1, 10, value=5)
+st.session_state.conversational_memory_length = st.sidebar.slider('Conversational memory length:', 0, 10, value=0)
+st.session_state.chunk_size = st.sidebar.slider('Chunk size:', 1000, 8000, value=4000, step=500)
+st.session_state.chunk_overlap = st.sidebar.slider('Chunk overlap:', 0, 1000, value=500, step=100)
 
 # Add a text area for the prompt
 prompt = st.sidebar.text_area("Enter a prompt for the LLM:", key="prompt")
@@ -105,7 +109,6 @@ if 'chat_history' not in st.session_state:
 
 def handle_userinput():
     user_question = st.session_state.user_question
-    # st.write("User Question: ", user_question)  # Debug statement
     if not st.session_state.get("embeddings_initialized", False):
         st.write("Please initialize the embeddings first.")
         return
@@ -118,15 +121,11 @@ def handle_userinput():
     
     # Invoke the retrieval chain with the prompt included
     response = st.session_state.conversation_chain({'question': f"{prompt} {user_question}", 'chat_history': st.session_state.chat_history})
-    # st.write("Response: ", response)  # Debug statement to check response structure
     ai_response = response['answer']
 
     # Save the user input and AI response to the chat history
     st.session_state.chat_history.append({'human': user_question, 'AI': ai_response})
 
-    # st.write("Response time:", time.process_time() - start)
-
-    # Clear the input box after processing the question
     st.session_state.user_question = ""
 
     display_chat_history()
@@ -148,22 +147,13 @@ def main():
     if "user_question" not in st.session_state:
         st.session_state.user_question = ""
 
-    # # Display the chat history only in the designated section
-    # st.write('<div style="height: 300px; overflow-y: auto;">', unsafe_allow_html=True)
-    # display_chat_history()
-    # st.write('</div>', unsafe_allow_html=True)
-
     st.text_input("Ask Professor Chatgroq any question about Pokemon Scarlet & Violet:", key="user_question", on_change=handle_userinput)
 
     # With a streamlit expander
     if 'response' in st.session_state:
         with st.expander("Document Similarity Search"):
-            # st.write("Document Similarity Search Triggered")  # Debug statement
-            # st.write("Full response: ", st.session_state.response)  # Debug statement to print the entire response
             if "source_documents" in st.session_state.response:
-                # st.write(f"Number of documents found: {len(st.session_state.response['source_documents'])}")  # Debug statement
                 for i, doc in enumerate(st.session_state.response["source_documents"]):
-                    # st.write(f"Document {i+1}:")  # Debug statement
                     st.write(doc.page_content)
                     st.write("--------------------------------")
             else:
